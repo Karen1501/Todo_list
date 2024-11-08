@@ -5,13 +5,23 @@ const Subtask = require("../models/Subtask");
 
 exports.createSubtask = async (req, res) => {
   try {
-    const subtask = new Subtask({ ...req.body, task: req.params.taskId });
-    await Subtask.save();
-    await Task.findByIdAndUpdate()(req.params.taskId),
-      { $push: { subtasks: subtask._id } };
-    res.status(201).json(subtask);
-  } catch (err) {
-    res.status(400).json({ message: err.message });
+    const { title, taskId, status } = req.body;
+
+    // Verifica que `taskId` esté presente
+    if (!taskId) {
+      return res.status(400).json({ error: "Task ID is required" });
+    }
+
+    const newSubtask = new Subtask({
+      title,
+      task: taskId,
+      status,
+    });
+
+    const savedSubtask = await newSubtask.save();
+    res.status(201).json(savedSubtask);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
   }
 };
 

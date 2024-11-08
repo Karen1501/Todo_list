@@ -1,17 +1,17 @@
 const mongoose = require("mongoose");
 
-// Esquema de la tarea
+const subtaskSchema = new mongoose.Schema({
+  title: { type: String, required: true },
+  completed: { type: Boolean, default: false },
+});
+
 const taskSchema = new mongoose.Schema({
   title: {
     type: String,
     required: true,
   },
-  status: {
-    type: String,
-    enum: ["pendiente", "completada"],
-    default: "pendiente",
-  },
-  subtasks: [{ type: mongoose.Schema.Types.ObjectId, ref: "Subtask" }],
+  subtasks: [subtaskSchema], // Array para subtareas
 });
 
-module.exports = mongoose.model("Task", taskSchema);
+const Task = mongoose.model("Task", taskSchema);
+module.exports = Task;

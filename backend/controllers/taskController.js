@@ -1,5 +1,4 @@
 const Task = require("../models/Task");
-const Subtask = require("../models/Subtask");
 
 //crear tarea
 exports.createTask = async (req, res) => {
@@ -41,7 +40,6 @@ exports.updateTask = async (req, res) => {
 exports.deleteTask = async (req, res) => {
   try {
     const task = await Task.findById(req.params.id);
-    await Subtask.deleteMany({ task: task._id });
     await task.remove();
     res.json({ message: "Tarea eliminada" });
   } catch (err) {

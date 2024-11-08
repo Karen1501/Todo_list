@@ -1,4 +1,3 @@
-// controllers/userController.js
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
@@ -6,8 +5,6 @@ const User = require("../models/User");
 // Registro de usuario
 const registerUser = async (req, res) => {
   const { username, password } = req.body;
-  console.log("Username:", username); // Verificar que el username no sea nulo
-  console.log("Password:", password); // Verificar que el password no sea nulo
 
   try {
     // Verificar si el usuario ya existe
@@ -18,7 +15,6 @@ const registerUser = async (req, res) => {
 
     // Crear un nuevo usuario
     const hashedPassword = await bcrypt.hash(password, 10);
-    console.log("Hash generado:", hashedPassword);
     const newUser = new User({
       username,
       password: hashedPassword,
@@ -49,7 +45,6 @@ const registerUser = async (req, res) => {
 // Inicio de sesión
 const loginUser = async (req, res) => {
   const { username, password } = req.body;
-  console.log("Contraseña recibida:", password);
 
   try {
     // Verificar si el usuario existe

@@ -15,8 +15,7 @@ const userSchema = new mongoose.Schema({
 
 // Encriptar la contraseña antes de guardarla en la base de datos
 userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next(); // Solo encriptar si la contraseña es nueva o modificada
-  console.log("Contraseña antes de encriptar:", this.password);
+  if (!this.isModified("password")) return next();
   this.password = await bcrypt.hash(this.password, 10); // Encriptar la contraseña
   next();
 });
@@ -28,9 +27,7 @@ userSchema.methods.matchPassword = async function (enteredPassword) {
 
 // Generar un token JWT
 userSchema.methods.generateAuthToken = function () {
-  // Corregir el nombre del método
   return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
-    // Asegúrate de que 'JWT_SECRET' esté definido en tus variables de entorno
     expiresIn: "10h",
   });
 };
