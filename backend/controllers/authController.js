@@ -1,6 +1,7 @@
+// controllers/userController.js
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const User = require("../models/User"); // Asegúrate de que este modelo exista
+const User = require("../models/User");
 
 // Registro de usuario
 const registerUser = async (req, res) => {
@@ -40,7 +41,7 @@ const registerUser = async (req, res) => {
     console.error("Error al registrar el usuario: ", error);
     return res.status(500).json({
       message: "Error al registrar el usuario",
-      error: error.message, // Agregado para obtener más detalles
+      error: error.message,
     });
   }
 };
@@ -53,21 +54,20 @@ const loginUser = async (req, res) => {
   try {
     // Verificar si el usuario existe
     const user = await User.findOne({ username });
-    console.log("Contraseña almacenada en BD:", user.password);
     if (!user) {
+      console.log("Usuario no encontrado");
       return res.status(400).json({ message: "Usuario incorrecto" });
     }
 
     // Verificar la contraseña
-    const isMatch = await bcrypt.compare(password.trim(), user.password.trim());
-    console.log("Coincidencia de contraseñas:", isMatch);
+    const isMatch = await bcrypt.compare(password, user.password);
     if (!isMatch) {
       return res.status(400).json({ message: "Contraseña incorrecta" });
     }
 
     // Generar un token JWT
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
-      expiresIn: "10h",
+      expiresIn: "48h",
     });
 
     // Enviar la respuesta con el token
