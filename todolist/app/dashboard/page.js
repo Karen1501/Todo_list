@@ -1,5 +1,3 @@
-// app/dashboard/page.js
-
 "use client";
 
 import { useEffect, useState } from "react";

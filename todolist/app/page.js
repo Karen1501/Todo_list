@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import "../styles/global.css";
 
 export default function Home() {
   const [username, setUsername] = useState("");
@@ -34,6 +33,7 @@ export default function Home() {
 
       if (response.ok) {
         setMessage(data.message);
+        localStorage.setItem("token", data.token);
         if (isLogin) {
           router.push("/tasks"); // Si inicia sesión correctamente, redirigir a la lista de tareas
         }
@@ -46,33 +46,64 @@ export default function Home() {
   };
 
   return (
-    <div className="auth-container">
-      <h1>{isLogin ? "Iniciar sesión" : "Registrarse"}</h1>
-      <form onSubmit={handleSubmit} className="auth-form">
-        <input
-          type="text"
-          placeholder="Nombre de usuario"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Contraseña"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-        <button type="submit">
+    <div className="container mx-auto p-4 flex items-center h-screen justify-center">
+      <div className="w-3/4">
+        <h1 className="text-2xl text-center mb-4">
           {isLogin ? "Iniciar sesión" : "Registrarse"}
+        </h1>
+        <form
+          onSubmit={handleSubmit}
+          className="border border-gray-500 p-4 rounded-lg shadow flex flex-col gap-4 mb-4"
+        >
+          <div className="flex flex-col gap-2">
+            <label>Usuario:</label>
+            <input
+              type="text"
+              placeholder="Nombre de usuario"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+              className="p-4 h-8 rounded-lg border border-gray-200 shadow-md"
+            />
+          </div>
+          <div className="flex flex-col gap-2">
+            <label>Password:</label>
+            <input
+              type="password"
+              placeholder="Contraseña"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              className="p-4 h-8 rounded-lg border border-gray-200 shadow-md"
+            />
+          </div>
+
+          <button
+            type="submit"
+            className="px-4 py-2 rounded-lg bg-indigo-800 hover:cursor-pointer hover:bg-indigo-400 text-white w-1/2 mx-auto"
+          >
+            {isLogin ? "Iniciar sesión" : "Registrarse"}
+          </button>
+        </form>
+        <button
+          onClick={toggleForm}
+          className="mx-auto text-blue-800 text-center block"
+        >
+          {isLogin ? (
+            <>
+              {" "}
+              "¿No tienes cuenta?"<span className="font-bold"> Regístrate</span>
+            </>
+          ) : (
+            <>
+              {" "}
+              "¿Ya tienes cuenta? "
+              <span className="font-bold"> Inicia sesión</span>
+            </>
+          )}
         </button>
-      </form>
-      <button onClick={toggleForm}>
-        {isLogin
-          ? "¿No tienes cuenta? Regístrate"
-          : "¿Ya tienes cuenta? Inicia sesión"}
-      </button>
-      {message && <p>{message}</p>}
+        {message && <p>{message}</p>}
+      </div>
     </div>
   );
 }

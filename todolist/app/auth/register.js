@@ -1,4 +1,3 @@
-// app/api/auth/register.js
 "use client";
 
 import { NextResponse } from "next/server";

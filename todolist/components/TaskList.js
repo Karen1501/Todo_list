@@ -1,6 +1,9 @@
 import TaskItem from "./TaskItem";
 
 const TaskList = ({ tasks }) => {
+  const newTaskHandler = (event) => {
+    const value = event.target.value;
+  };
   return (
     <div>
       <ul>

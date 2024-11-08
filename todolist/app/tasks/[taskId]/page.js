@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import api from "../../../services/api";
-import SubTaskItem from "../../../components/SubTaskItem";
+import SubTaskItem from "../../../components/SubtasksItem";
 
 export default function TaskDetailPage() {
   const { taskId } = useParams();

@@ -1,4 +1,3 @@
-// app/login/page.js
 "use client";
 
 import { useState } from "react";
@@ -30,8 +29,8 @@ export default function LoginPage() {
   };
 
   return (
-    <div>
-      <h2>Iniciar Sesión</h2>
+    <div className="container mx-auto p-4">
+      <h2 className="text-xl">Iniciar Sesión</h2>
       <form onSubmit={handleLogin}>
         <div>
           <label>Usuario:</label>
